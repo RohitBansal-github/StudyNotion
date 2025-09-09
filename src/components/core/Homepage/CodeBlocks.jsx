@@ -34,7 +34,7 @@ function CodeBlocks({ position, heading, subheading, ctabtn1, ctabtn2, codeblock
             <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[50%] h-fit flex flex-row py-4 rounded-md shadow-md bg-richblack-800">
                 {/* line numbers */}
                 <div className="w-[10%] text-center flex flex-col text-richblack-400 font-inter font-bold text-xs sm:text-sm">
-                    {Array.from({ length: 13 }, (_, i) => (
+                    {Array.from({ length: 12 }, (_, i) => (
                         <p key={i}>{i + 1}</p>
                     ))}
                 </div>

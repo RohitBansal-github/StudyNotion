@@ -70,7 +70,7 @@ function Navbar() {
                                                 <div className='invisible absolute left-[50%]
                                                 translate-x-[-50%] translate-y-[20%] top-[50%] 
                                                 flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900 
-                                                opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 lg:w-[250px] z-50'> 
+                                                opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 lg:w-[250px] z-50'>
 
                                                     <div className='absolute left-[50%] top-[0px] h-5 w-7 rotate-45 rounded-sm bg-richblack-5'></div>
 

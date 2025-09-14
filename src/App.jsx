@@ -9,6 +9,10 @@ import { useState } from "react";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
+import About from "./pages/About";
+import MyProfile from "./components/core/Dashboard/MyProfile";
+import PrivateRoute from "./components/core/Auth/PrivateRoute";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,6 +47,21 @@ function App() {
             <VerifyEmail/>
           </OpenRoute>
         }/>
+        <Route path="about" element={
+          <OpenRoute>
+            <About/>
+          </OpenRoute>
+        }/>
+
+        <Route element={
+          <PrivateRoute>
+            <Dashboard/>
+          </PrivateRoute>
+        }>
+        <Route path="dashboard/my-profile" element={<MyProfile/>}/>
+
+        </Route>
+
 
       </Routes>
     </div>

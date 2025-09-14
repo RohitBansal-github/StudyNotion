@@ -44,7 +44,7 @@ function ProfileDropDown() {
       {open && (
         <div className="absolute right-0 mt-2 w-48 bg-richblack-800 rounded-md shadow-lg py-2 z-50 border border-richblack-700">
           <button
-            onClick={() => { navigate("/profile"); setOpen(false); }}
+            onClick={() => { navigate("/dashboard/my-profile"); setOpen(false); }}
             className="w-full text-left px-4 py-2 text-richblack-5 hover:bg-richblack-700 transition-colors"
           >
             Profile

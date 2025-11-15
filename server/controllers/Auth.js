@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const otpTemplate = require("../mail/templates/emailVerificationTemplate");
+const mailSender = require('../utils/mailSender');
 
 
 //send otp
@@ -89,7 +90,7 @@ exports.signUp = async (req, res) => {
         } = req.body;
 
         //validate karlo -- field should not empty
-        if (!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
+        if (!firstName || !lastName || !email || !password || !confirmPassword || !otp||!accountType) {
             return res.status(403).json({
                 success: false,
                 message: "All Fields are Required."
@@ -119,7 +120,7 @@ exports.signUp = async (req, res) => {
         console.log("recent otp:", recentOtp);
 
         //validate otp
-        if (recentOtp.length == 0) {
+        if (recentOtp.length === 0) {
             //otp not found
             return res.status(400).json({
                 success: false,

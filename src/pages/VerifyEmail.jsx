@@ -6,78 +6,85 @@ import { sendOtp, signUp } from '../services/operations/authAPI';
 
 function VerifyEmail() {
 
-    const [otp,setOtp]=useState("");
-    const navigate=useNavigate();
-    const dispatch=useDispatch();
-    const{signupData,loading} =useSelector((state)=>state.auth);
+    const [otp, setOtp] = useState("");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { signupData, loading } = useSelector((state) => state.auth);
 
-    useEffect(()=>{
-        if(!signupData){
+    useEffect(() => {
+        if (!signupData) {
             navigate("/signup");
         }
-    },[]);
+    }, []);
 
-    const handleOnSubmit=(e)=>{
+    const handleOnSubmit = (e) => {
         e.preventDefault();
 
-        const{
+        const {
             accountType,
             firstName,
             lastName,
             email,
             password,
             confirmPassword,
-        }=signupData;
+        } = signupData;
 
-
-        dispatch(signUp(accountType,firstName,lastName,email,password,confirmPassword,otp,navigate));
-         
+        dispatch(signUp(accountType, firstName, lastName, email, password, confirmPassword, otp, navigate));
     }
 
+    return (
+        <div className="flex justify-center items-center min-h-screen bg-richblack-900 text-white">
+            {
+                !loading ? (
+                    <div className="bg-richblack-800 p-8 rounded-xl shadow-md w-full max-w-md text-center">
+                        <h1 className="text-2xl font-semibold mb-2">Verify Email</h1>
+                        <p className="text-sm text-gray-400 mb-6">
+                            A verification code has been sent to your email. Enter the code below:
+                        </p>
 
-  return (
-    <div className='text-white'>
-        {
-            !loading?
-            <div>
-                <h1>Verify Email</h1>
-                <p>A verification code has been sent to you. Enter the code below</p>
+                        <form onSubmit={handleOnSubmit} className="space-y-6">
+                            <div className="flex justify-center">
+                                <OTPInput
+                                    value={otp}
+                                    onChange={setOtp}
+                                    numInputs={6}
+                                    renderSeparator={<span className="mx-1"></span>}
+                                    renderInput={(props) => (
+                                        <input
+                                            {...props}
+                                            className="bg-richblack-700 border border-gray-600 rounded-md w-10 h-10 text-center text-white focus:outline-none"
+                                        />
+                                    )}
+                                />
+                            </div>
 
-                <form onSubmit={handleOnSubmit}>
-                    <OTPInput
-                    value={otp}
-                    onChange={setOtp}
-                    numInputs={6}
-                    renderSeparator={<span>-</span>}
-                    renderInput={(props)=><input {...props}
-                    className='bg-richblack-800'
-                    />}
-                    />
-                    <button type='submit'>
-                        Verify Email
-                    </button>
-                </form>
+                            <button
+                                type="submit"
+                                className="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 rounded-lg transition"
+                            >
+                                Verify Email
+                            </button>
+                        </form>
 
-                <div>
-                    <div>
-                        <Link to='/login'>
-                        <p>Back to Login</p>
-                        </Link>
+                        <div className="mt-6 space-y-3">
+                            <Link to="/login" className="block text-sm text-gray-400 hover:underline">
+                                Back to Login
+                            </Link>
+
+                            <button
+                                onClick={() => dispatch(sendOtp(signupData.email, navigate))}
+                                className="text-sm text-gray-400 hover:underline"
+                            >
+                                Resend it
+                            </button>
+                        </div>
                     </div>
-
-                    <button onClick={()=>dispatch(sendOtp(signupData.email,navigate))}>
-                        Resend it
-                    </button>
-                </div>
-
-
-            </div>
-            :(
-                <div>loading</div>
-            )  
-        }
-    </div>
-  )
+                ) : (
+                    <div className="text-center">Loading...</div>
+                )
+            }
+        </div>
+    )
 }
 
 export default VerifyEmail

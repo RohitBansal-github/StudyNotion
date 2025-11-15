@@ -39,7 +39,7 @@ function ProfileDropDown() {
   alt="Profile"
   className="w-10 h-10 rounded-full cursor-pointer"
 />
-      </button>
+      </button> 
 
       {open && (
         <div className="absolute right-0 mt-2 w-48 bg-richblack-800 rounded-md shadow-lg py-2 z-50 border border-richblack-700">

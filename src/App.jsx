@@ -13,52 +13,74 @@ import About from "./pages/About";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
+import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
+import Cart from "./components/core/Dashboard/Cart/Cart";
+import { ACCOUNT_TYPE } from "./utils/constants";
+import { useSelector } from "react-redux";
+import Contact from "./pages/Contact";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter overflow-y-scroll" >
-      <Navbar/>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="login" element={            <OpenRoute>
-              <Login  setIsLoggedIn={setIsLoggedIn}/>
-            </OpenRoute>}/>
+        <Route path="login" element={<OpenRoute>
+          <Login setIsLoggedIn={setIsLoggedIn} />
+        </OpenRoute>} />
         <Route
           path="signup"
           element={
             <OpenRoute>
-              <SignUp  setIsLoggedIn={setIsLoggedIn}/>
+              <SignUp setIsLoggedIn={setIsLoggedIn} />
             </OpenRoute>
           }
         />
         <Route path="forgot-password" element={
           <OpenRoute>
-            <ForgotPassword/>
+            <ForgotPassword />
           </OpenRoute>
-        }/>
+        } />
         <Route path="update-password/:id" element={
           <OpenRoute>
-            <UpdatePassword/>
+            <UpdatePassword />
           </OpenRoute>
-        }/>
+        } />
         <Route path="verify-email" element={
           <OpenRoute>
-            <VerifyEmail/>
+            <VerifyEmail />
           </OpenRoute>
-        }/>
+        } />
         <Route path="about" element={
           <OpenRoute>
-            <About/>
+            <About />
+          </OpenRoute>
+        } />
+        <Route path="contact" element={
+          <OpenRoute>
+            <Contact/>
           </OpenRoute>
         }/>
 
         <Route element={
           <PrivateRoute>
-            <Dashboard/>
+            <Dashboard />
           </PrivateRoute>
         }>
-        <Route path="dashboard/my-profile" element={<MyProfile/>}/>
+          <Route path="dashboard/my-profile" element={<MyProfile />} />
+
+
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route path="dashboard/cart" element={<Cart />} />
+                <Route path="dashboard/enrolled-courses"
+                  element={<EnrolledCourses />} />
+              </>
+            )
+          }
 
         </Route>
 

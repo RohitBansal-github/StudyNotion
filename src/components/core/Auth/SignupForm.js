@@ -52,6 +52,8 @@ function SignupForm() {
 
     // Setting signup data to state
     // To be used after otp verification
+    console.log("Signup Data -> ", signupData)
+
     dispatch(setSignupData(signupData))
     // Send OTP to user for verification
     dispatch(sendOtp(formData.email, navigate))
@@ -86,14 +88,14 @@ function SignupForm() {
             {/* Student / Instructor Tab */}
             <div className='flex bg-richblack-800 p-1 gap-x-1 my-5 rounded-full max-w-max'>
                 <button
-                    className={`${accountType==="student" ? "bg-richblack-900 text-richblack-5" : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
-                    onClick={() => setaccountType("student")}
+                    className={`${accountType===ACCOUNT_TYPE.STUDENT? "bg-richblack-900 text-richblack-5" : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
+                    onClick={() => setaccountType(ACCOUNT_TYPE.STUDENT)}
                 >
                     Student
                 </button>
                 <button
-                    className={`${accountType==="instructor" ? "bg-richblack-900 text-richblack-5" : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
-                    onClick={() => setaccountType("instructor")}
+                    className={`${accountType === ACCOUNT_TYPE.INSTRUCTOR ? "bg-richblack-900 text-richblack-5" : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
+                    onClick={() => setaccountType(ACCOUNT_TYPE.INSTRUCTOR)}
                 >
                     Instructor
                 </button>

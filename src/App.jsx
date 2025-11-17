@@ -19,9 +19,13 @@ import { ACCOUNT_TYPE } from "./utils/constants";
 import { useSelector } from "react-redux";
 import Contact from "./pages/Contact";
 
+import Error from "./pages/Error";
+import AddCourse from "./components/core/Dashboard/AddCourse/AddCourse";
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
+
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter overflow-y-scroll" >
       <Navbar />
@@ -81,8 +85,17 @@ function App() {
               </>
             )
           }
+          {
+            user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+              <>
+              <Route path="dashboard/add-course" element={<AddCourse/>} />
+              </>
+            )
+          }
 
         </Route>
+
+        <Route path="*" element = {<Error/>}/>
 
 
       </Routes>

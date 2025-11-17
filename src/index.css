@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.form-style {
+  @apply w-full rounded-md bg-richblack-700 text-richblack-5
+         p-3 border-b border-richblack-500 placeholder:text-richblack-400
+         focus:outline-none focus:ring-1 focus:ring-yellow-50;
+}
+

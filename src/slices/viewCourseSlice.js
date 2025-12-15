@@ -13,7 +13,7 @@ const viewCourseSlice = createSlice(
         initialState,
         reducers: {
             setCourseSectionData: (state, action) => {
-                state.courseSectionData = action.payload
+                state.courseSection = action.payload
             },
             setEntireCourseData:
                 (state, action) => {

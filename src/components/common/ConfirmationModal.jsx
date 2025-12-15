@@ -19,7 +19,7 @@ function ConfirmationModal({ modalData }) {
         {/* Buttons */}
         <div className="flex gap-4 justify-end">
           <IconBtn
-            onclick={modalData?.btn1Handler}
+            onClick={modalData?.btn1Handler}
             text={modalData?.btn1Text || "Confirm"}
             customClasses="bg-yellow-50 text-richblack-900 hover:bg-yellow-200 px-4 py-2 rounded-md"
           />

@@ -62,7 +62,7 @@ exports.createSubSection=async(req,res)=>{
 
 exports.updateSubSection = async (req, res) => {
   try {
-    const { subSectionId, title, timeDuration, description } = req.body;
+    const { sectionId, subSectionId, title, timeDuration, description } = req.body;
     const video = req.files?.videoFile;
 
     if (!subSectionId) {
@@ -70,6 +70,13 @@ exports.updateSubSection = async (req, res) => {
         success: false,
         message: "All fields are required",
       });
+    }
+
+    if(!sectionId){
+        return res.status(400).json({
+    success: false,
+    message: "sectionId are required",
+  });
     }
 
     const updatePayload = {
@@ -89,10 +96,14 @@ exports.updateSubSection = async (req, res) => {
       { new: true }
     );
 
+    const updatedSection = await Section.findById(sectionId)
+      .populate("subSection")
+      .exec();
+
     return res.status(200).json({
       success: true,
       message: "SubSection Updated Successfully",
-      data: updatedSubSection,
+      updatedSection,
     });
 
   } catch (error) {

@@ -130,13 +130,13 @@ export default function CourseInformationForm() {
         const result = await editCourseDetails(formData, token)
         setLoading(false)
         if (result) {
+          dispatch(setCourse(result.data))
           dispatch(setStep(2))
-          dispatch(setCourse(result))
         }
       } else {
         toast.error("No changes made to the form")
       }
-      return
+      return;
     }
 
     const formData = new FormData()
@@ -154,8 +154,8 @@ export default function CourseInformationForm() {
 
     console.log("Result :",result);
     if (result) {
+      dispatch(setCourse(result.data))
       dispatch(setStep(2))
-      dispatch(setCourse(result))
     }
     setLoading(false)
   }

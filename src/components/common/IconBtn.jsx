@@ -2,7 +2,7 @@ import React from "react";
 
 function IconBtn({
   text,
-  onclick,
+  onClick,
   children,
   disabled,
   outline = false,
@@ -12,7 +12,7 @@ function IconBtn({
   return (
     <button
       disabled={disabled}
-      onClick={onclick}
+      onClick={onClick}
       type={type}
       className={`
         flex items-center justify-center gap-2 rounded-md px-4 py-2 font-semibold

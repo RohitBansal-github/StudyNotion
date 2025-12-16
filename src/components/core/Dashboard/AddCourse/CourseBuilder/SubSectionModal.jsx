@@ -130,17 +130,6 @@ function SubSectionModal({ modalData, sectionId, setModalData, add = false, view
                 courseContent: updatedCourseContent
             }))
 
-            // 🔥 VERY IMPORTANT: sync local modal data
-            const updatedLecture = result.updatedSection.subSection.find(
-                (lec) => lec._id === modalData._id
-            );
-
-            if (updatedLecture) {
-                setModalData({ ...updatedLecture, sectionId: modalData.sectionId });
-            } else {
-                setModalData(null);
-            }
-
         }
 
         setModalData(null);

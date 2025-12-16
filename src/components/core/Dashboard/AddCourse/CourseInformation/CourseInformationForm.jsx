@@ -36,7 +36,7 @@ export default function CourseInformationForm() {
     const getCategories = async () => {
       setLoading(true)
       const categories = await fetchCourseCategories()
-      console.log("CATEGORIES API RESPONSE →", categories)
+      // console.log("CATEGORIES API RESPONSE →", categories)
       if (categories.length > 0) {
         // console.log("categories", categories)
         setCourseCategories(categories)
@@ -71,7 +71,7 @@ export default function CourseInformationForm() {
       currentValues.courseBenefits !== course.whatYouWillLearn ||
       currentValues.courseCategory._id !== course.category._id ||
       currentValues.courseRequirements.toString() !==
-        course.instructions.toString() ||
+      course.instructions.toString() ||
       currentValues.courseImage !== course.thumbnail
     ) {
       return true
@@ -90,6 +90,12 @@ export default function CourseInformationForm() {
       // console.log("changes after editing form values:", currentValues)
       // console.log("now course:", course)
       // console.log("Has Form Changed:", isFormUpdated())
+
+
+      console.log("Is Form Updated:", isFormUpdated());
+
+
+
       if (isFormUpdated()) {
         const currentValues = getValues()
         const formData = new FormData()
@@ -128,11 +134,14 @@ export default function CourseInformationForm() {
         // console.log("Edit Form data: ", formData)
         setLoading(true)
         const result = await editCourseDetails(formData, token)
+
         setLoading(false)
         if (result) {
-          dispatch(setCourse(result.data))
-          dispatch(setStep(2))
+          dispatch(setCourse(result))
+          dispatch(setStep(2)) // move to next step
+          console.log("Updated course in store:", result)
         }
+
       } else {
         toast.error("No changes made to the form")
       }
@@ -152,7 +161,7 @@ export default function CourseInformationForm() {
     setLoading(true)
     const result = await addCourseDetails(formData, token)
 
-    console.log("Result :",result);
+    console.log("Result :", result);
     if (result) {
       dispatch(setCourse(result.data))
       dispatch(setStep(2))

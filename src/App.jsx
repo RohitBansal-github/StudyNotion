@@ -21,6 +21,8 @@ import Contact from "./pages/Contact";
 
 import Error from "./pages/Error";
 import AddCourse from "./components/core/Dashboard/AddCourse/AddCourse";
+import MyCourses from "./components/core/Dashboard/MyCourses";
+import EditCourse from "./components/core/Dashboard/EditCourse/EditCourse";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -89,6 +91,8 @@ function App() {
             user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
               <>
               <Route path="dashboard/add-course" element={<AddCourse/>} />
+              <Route path="dashboard/my-courses" element={<MyCourses/>} />
+              <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>} />
               </>
             )
           }

@@ -3,7 +3,8 @@ const express=require("express");
 const router=express.Router();
 
 //Import course controller
-const{createCourse,showAllCourses,getCourseDetails}=require("../controllers/Course");
+const{createCourse,showAllCourses,getCourseDetails,editCourseDetails,deleteCourse,getFullCourseDetails}=require("../controllers/Course");
+const { getInstructorCourses } = require("../controllers/Course");
 
 //Import category controller
 const{createCategory,showAllCategories,categoryPageDetails}=require("../controllers/Category");
@@ -40,6 +41,36 @@ router.delete("/deleteSubSection",auth,isInstructor,deleteSubSection);
 router.get("/showAllCourses",showAllCourses);
 //get specific course details
 router.post("/getCourseDetails",getCourseDetails);
+
+router.put("/editCourse",auth,isInstructor,editCourseDetails);
+
+// Fetch all courses of logged-in instructor
+router.get(
+  "/getInstructorCourses",
+  auth,
+  isInstructor,
+  getInstructorCourses
+);
+
+// Fetch full course details  of logged-in instructor
+router.post(
+  "/getFullCourseDetails",
+  auth,
+  isInstructor,
+  getFullCourseDetails
+);
+
+
+
+
+// Delete a course
+router.delete(
+  "/deleteCourse",
+  auth,
+  isInstructor,
+  deleteCourse
+);
+
 
 
 //***************//

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import CourseInformationForm from "./CourseInformation/CourseInformationForm";
 import { FaCheck } from "react-icons/fa";
 import CourseBuilderForm from "./CourseBuilder/CourseBuilderForm";
+import PublishCourse from "./PublishCourse/PublishCourse";
 
 function RenderSteps() {
     const { step } = useSelector((state) => state.course);
@@ -52,7 +53,7 @@ function RenderSteps() {
             <div className="mt-10">
                 {step === 1 && <CourseInformationForm />}
                 {step === 2 && <CourseBuilderForm />}
-                {/* {step === 3 && <PublishCourse />} */}
+                {step === 3 && <PublishCourse />}
             </div>
         </div>
     );

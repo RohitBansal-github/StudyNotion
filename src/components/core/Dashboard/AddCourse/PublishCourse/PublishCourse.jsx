@@ -1,112 +1,97 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import IconBtn from '../../../../common/IconBtn';
 import { resetCourseState, setStep } from '../../../../../slices/courseSlice';
 import { COURSE_STATUS } from '../../../../../utils/constants';
 import { editCourseDetails } from '../../../../../services/operations/courseDetailsAPI';
-import { useNavigate } from 'react-router-dom';
 
 function PublishCourse() {
+  const { register, handleSubmit, setValue, getValues } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const {register, handleSubmit, setValue, getValues} = useForm();
+  const { course } = useSelector((state) => state.course);
+  const { token } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
 
-    const dispatch = useDispatch();
-    const {course} = useSelector((state) => state.course);
-    const {token} = useSelector((state)=> state.auth);
-    const[loading,setLoading] = useState(false);
-    const navigate = useNavigate();
+  // Pre-populate checkbox if course is already published
+  useEffect(() => {
+    if (course?.status === COURSE_STATUS.PUBLISHED) {
+      setValue('public', true);
+    }
+  }, [course?.status, setValue]);
 
-    useEffect(()=>{
-        if(course?.status ===COURSE_STATUS.PUBLISHED){
-            setValue("public",true);
-        }
-    },[course?.status, setValue]);
+  const goToCourses = () => {
+    dispatch(resetCourseState());
+    navigate('/dashboard/my-courses');
+  };
 
-    const goToCourses=()=>{
-        dispatch(resetCourseState());
+  const handleCoursePublish = async () => {
+    const isPublic = getValues('public');
 
-        navigate ("/dashboard/my-courses")
+    // No changes, just redirect
+    if (
+      (course?.status === COURSE_STATUS.PUBLISHED && isPublic) ||
+      (course?.status === COURSE_STATUS.DRAFT && !isPublic)
+    ) {
+      goToCourses();
+      return;
     }
 
-    const handleCoursePublish=async()=>{
-        if(course?.status === COURSE_STATUS.PUBLISHED && getValues("public") ===true || (course.status=== COURSE_STATUS.DRAFT && getValues("public") === false)){
+    // Form updated, call API
+    const formData = new FormData();
+    formData.append('courseId', course._id);
+    formData.append('status', isPublic ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT);
 
-            // no updation in form
-            // no need to make api call
+    setLoading(true);
+    const result = await editCourseDetails(formData, token);
+    setLoading(false);
 
-            goToCourses();
-            return;
-        }
+    if (result) goToCourses();
+  };
 
-        //  if form is updated
-        const formData = new FormData();
-        formData.append("courseId",course._id);
-        const courseStatus = getValues("public") ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT;
-        formData.append("status", courseStatus);
+  const onSubmit = () => {
+    handleCoursePublish();
+  };
 
-        setLoading(true);
-        const result = await editCourseDetails(formData, token);
-
-        if(result){
-            goToCourses();
-        }
-
-        setLoading(false);
-
-
-    }
-
-    const onSubmit=()=>{
-
-        handleCoursePublish();
-
-
-    }
-
-    const goBack=()=>{
-        dispatch(setStep(2));
-    }
-
-
-
+  const goBack = () => {
+    dispatch(setStep(2));
+  };
 
   return (
-    <div className='rounded-md border-[1px] bg-richblack-800 p-6 border-richblack-700'>
+    <div className="rounded-md border border-richblack-700 bg-richblack-800 p-6 space-y-6">
+      <h2 className="text-lg font-semibold text-richblack-5">Publish Course</h2>
 
-        <p>Publish Course</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <label htmlFor="public">
-                <input 
-                type="checkbox" 
-                id='public'
-                {...register("public")}
-                className='rounded h-4 w-4'
-                />
-                <span className='ml-2'>Make this Course Public</span>
-                </label>
-            </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="public"
+            {...register('public')}
+            className="h-4 w-4 rounded accent-yellow-50"
+          />
+          <label htmlFor="public" className="text-richblack-5">
+            Make this course public
+          </label>
+        </div>
 
-            <div className='flex justify-end gap-x-3'>
-                <button
-                disabled={loading}
-                type='button'
-                onClick={goBack}
-                className='flex items-center rounded-md bg-richblack-500 p-2'
-                >
-                    Back
-                </button>
-                <IconBtn
-                type='submit'
-                 disabled={loading} text="save changes" />
-            </div>
+        <div className="flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={goBack}
+            disabled={loading}
+            className="flex items-center rounded-md bg-richblack-500 px-4 py-2 text-richblack-100 hover:bg-richblack-600 transition"
+          >
+            Back
+          </button>
 
-
-        </form>
-
+          <IconBtn type="submit" disabled={loading} text="Save Changes" />
+        </div>
+      </form>
     </div>
-  )
+  );
 }
 
-export default PublishCourse
+export default PublishCourse;

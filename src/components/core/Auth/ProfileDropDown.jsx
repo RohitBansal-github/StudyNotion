@@ -34,16 +34,14 @@ function ProfileDropDown() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Get button position for absolute placement
+  // Get button position for dropdown placement
   const [dropdownStyles, setDropdownStyles] = useState({});
-
   useEffect(() => {
     if (open && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setDropdownStyles({
-        top: rect.bottom + window.scrollY + 5,
-        left: rect.left + window.scrollX,
-        width: rect.width,
+        top: rect.bottom + window.scrollY + 8,
+        left: rect.right - 200, // Adjust width offset
       });
     }
   }, [open]);
@@ -69,34 +67,45 @@ function ProfileDropDown() {
       {open &&
         createPortal(
           <div
-            ref={dropdownRef}
-            style={dropdownStyles}
-            className="absolute bg-richblack-800 rounded-md shadow-lg py-2 z-50 border border-richblack-700"
+            className="fixed inset-0 z-50"
           >
-            <button
-              onClick={() => {
-                navigate("/dashboard/my-profile");
-                setOpen(false);
-              }}
-              className="w-full text-left px-4 py-2 text-richblack-5 hover:bg-richblack-700 transition-colors"
+            {/* Transparent background to catch outside clicks */}
+            <div
+              className="absolute inset-0"
+              onClick={() => setOpen(false)}
+            ></div>
+
+            {/* Dropdown box */}
+            <div
+              ref={dropdownRef}
+              style={dropdownStyles}
+              className="absolute w-48 bg-richblack-800 rounded-md shadow-lg py-2 border border-richblack-700"
             >
-              Profile
-            </button>
-            <button
-              onClick={() => {
-                navigate("/settings");
-                setOpen(false);
-              }}
-              className="w-full text-left px-4 py-2 text-richblack-5 hover:bg-richblack-700 transition-all duration-200 ease-in-out"
-            >
-              Settings
-            </button>
-            <button
-              onClick={handleLogout}
-              className="w-full text-left px-4 py-2 text-pink-200 hover:bg-richblack-700 transition-colors"
-            >
-              Logout
-            </button>
+              <button
+                onClick={() => {
+                  navigate("/dashboard/my-profile");
+                  setOpen(false);
+                }}
+                className="w-full text-left px-4 py-2 text-richblack-5 hover:bg-richblack-700 transition-colors"
+              >
+                Profile
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/settings");
+                  setOpen(false);
+                }}
+                className="w-full text-left px-4 py-2 text-richblack-5 hover:bg-richblack-700 transition-colors"
+              >
+                Settings
+              </button>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-2 text-pink-200 hover:bg-richblack-700 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
           </div>,
           document.body
         )}

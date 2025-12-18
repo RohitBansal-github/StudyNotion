@@ -1,5 +1,5 @@
 const Category = require('../models/Category');
-
+const Course = require("../models/Course");
 
 //create category ka handler function
 exports.createCategory = async (req, res) => {
@@ -51,55 +51,74 @@ exports.showAllCategories = async (req, res) => {
 
 //categoryPageDetails
 exports.categoryPageDetails = async (req, res) => {
-    try {
-        //get categoryId
-        const { categoryId } = req.body;
-        //get courses for selected category
-        const selectedCategory = await Category.findById(categoryId).populate("courses").exec();
+  try {
+    const { categoryId } = req.body;
 
-        //validation
-        if (!selectedCategory) {
-            return res.status(404).json({
-                success: false,
-                message: "Data not Found",
-            })
-        }
-
-        //get courses for different categories
-        const differentCategory = await Category.find({
-            _id: { $ne: categoryId },
-        }).populate("courses").exec();
-
-        //TODO: get top selling courses
-
-        // Get top 10 selling courses using aggregation
-        const topSellingCourses = await Course.aggregate([
-            { $match: { status: "Published" } },
-            {
-                $addFields: {
-                    enrolledCount: { $size: "$studentsEnrolled" },
-                },
-            },
-            { $sort: { enrolledCount: -1 } },
-            { $limit: 10 },
-        ]);
-
-        //return response
-        return res.status(200).json({
-            success: true,
-            data: {
-                selectedCategory,
-                differentCategory,
-            }
-        })
-
-
+    if (!categoryId) {
+      return res.status(400).json({
+        success: false,
+        message: "Category ID is required",
+      });
     }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: error.message,
-        })
+
+    const selectedCategory = await Category.findById(categoryId)
+      .populate({
+        path: "courses",
+        match: { status: "Published" },
+        populate: { path: "instructor" },
+      })
+      .exec();
+
+    if (!selectedCategory) {
+      return res.status(404).json({
+        success: false,
+        message: "Data not Found",
+      });
     }
-}
+
+    const differentCategory = await Category.find({
+      _id: { $ne: categoryId },
+    })
+      .populate({
+        path: "courses",
+        match: { status: "Published" },
+        populate: { path: "instructor" },
+      })
+      .exec();
+
+    const topSellingCourses = await Course.aggregate([
+      { $match: { status: "Published" } },
+      {
+        $addFields: {
+          enrolledCount: { $size: "$studentsEnrolled" },
+        },
+      },
+      { $sort: { enrolledCount: -1 } },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "instructor",
+          foreignField: "_id",
+          as: "instructor",
+        },
+      },
+      { $unwind: "$instructor" },
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        selectedCategory,
+        differentCategory,
+        topSellingCourses,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

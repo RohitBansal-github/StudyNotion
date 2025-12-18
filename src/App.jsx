@@ -23,6 +23,7 @@ import Error from "./pages/Error";
 import AddCourse from "./components/core/Dashboard/AddCourse/AddCourse";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse/EditCourse";
+import Catalog from "./pages/Catalog";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,6 +34,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+
+        <Route path = "catalog/:catalogName" element={<Catalog/>}/>
+
         <Route path="login" element={<OpenRoute>
           <Login setIsLoggedIn={setIsLoggedIn} />
         </OpenRoute>} />

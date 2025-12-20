@@ -1,4 +1,5 @@
 exports.courseEnrollmentEmail = (courseName, name) => {
+  const BASE_URL = process.env.FRONTEND_URL || "http://localhost:3000";
   return `
     <!DOCTYPE html>
     <html>
@@ -38,7 +39,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
         <div class="email-container">
           <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
             <a href="https://studynotion.vercel.app" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-              <img src="https://studynotion.vercel.app/logo.png" alt="StudyNotion Logo" style="height: 40px;" />
+              <img src="` + BASE_URL + `/logo.png" alt="StudyNotion Logo"  style="height: 40px;" />
               <span style="font-size: 20px; font-weight: bold; color: #000;">StudyNotion</span>
             </a>
           </div>

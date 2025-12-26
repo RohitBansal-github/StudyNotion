@@ -29,7 +29,7 @@ function MyProfile() {
         </div>
         <IconBtn
           text="Edit"
-          onclick={() => navigate("/dashboard/settings")}
+          onClick={() => navigate("/dashboard/settings")}
         >
           <VscEdit className="text-lg" />  {/* 👈 Icon added */}
         </IconBtn>
@@ -41,7 +41,7 @@ function MyProfile() {
           <p className="text-xl font-semibold">About</p>
           <IconBtn
             text="Edit"
-            onclick={() => navigate("/dashboard/settings")}
+            onClick={() => navigate("/dashboard/settings")}
           >
             <VscEdit className="text-lg" />
           </IconBtn>
@@ -57,7 +57,7 @@ function MyProfile() {
           <p className="text-xl font-semibold">Personal Details</p>
           <IconBtn
             text="Edit"
-            onclick={() => navigate("/dashboard/settings")}
+            onClick={() => navigate("/dashboard/settings")}
           >
             <VscEdit className="text-lg" />
           </IconBtn>

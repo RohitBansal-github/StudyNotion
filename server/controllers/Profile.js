@@ -2,21 +2,22 @@ const Profile = require("../models/Profile");
 const User = require("../models/User");
 const Course = require("../models/Course");
 const {uploadImageTocloudinary} = require("../utils/imageUploader");
+const CourseProgress = require("../models/CourseProgress");
+const { convertSecondsToDuration } = require("../utils/secToDuration");
 
 //update profile handler
 exports.profileUpdate = async (req, res) => {
     try {
         //fetch data
         const { dateOfBirth = "", about = "", contactNumber, gender } = req.body;
-        //get the user id
-        const id = req.user.id;
+        const id = req.user.id; // get user id
 
         //validate the data
         if (!contactNumber || !gender) {
             return res.status(403).json({
                 success: false,
                 message: "ContactNumber and gender is required",
-            })
+            });
         }
 
         //find profile
@@ -31,22 +32,25 @@ exports.profileUpdate = async (req, res) => {
         profileDetails.gender = gender;
         await profileDetails.save();
 
+        //fetch updated user with populated profile
+        const updatedUser = await User.findById(id).populate("additionalDetails");
+
         //return response
         return res.status(200).json({
             success: true,
             message: "Profile Updated Successfully",
-            profileDetails,
-        })
+            updatedUserDetails: updatedUser, // now frontend can safely access this
+        });
 
-    }
-    catch (error) {
+    } catch (error) {
         return res.status(500).json({
             success: false,
             message: "Unable to Update Profile, please try again",
             error: error.message,
-        })
+        });
     }
-}
+};
+
 
 //deleteAccount
 //TODO: Find the way how can we schedule this delete request operation
@@ -159,39 +163,68 @@ exports.updateDisplayPicture = async (req, res) => {
 //getEnrolledCourses handler
 
 exports.getEnrolledCourses = async (req, res) => {
-    try {
-        const userId = req.user.id;
-
-        const user = await User.findById(userId)
-            .populate({
-                path: "courses",
-                populate: {
-                    path: "courseContent",
-                    populate: {
-                        path: "subSection",
-                    },
-                },
-            })
-            .exec();
-
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found",
-            });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Enrolled courses fetched successfully",
-            data: user.courses,
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Unable to fetch enrolled courses",
-            error: error.message,
-        });
+  try {
+    const userId = req.user.id
+    let userDetails = await User.findOne({
+      _id: userId,
+    })
+      .populate({
+        path: "courses",
+        populate: {
+          path: "courseContent",
+          populate: {
+            path: "subSection",
+          },
+        },
+      })
+      .exec()
+    userDetails = userDetails.toObject()
+    var SubsectionLength = 0
+    for (var i = 0; i < userDetails.courses.length; i++) {
+      let totalDurationInSeconds = 0
+      SubsectionLength = 0
+      for (var j = 0; j < userDetails.courses[i].courseContent.length; j++) {
+        totalDurationInSeconds += userDetails.courses[i].courseContent[
+          j
+        ].subSection.reduce((acc, curr) => acc + parseInt(curr.timeDuration), 0)
+        userDetails.courses[i].totalDuration = convertSecondsToDuration(
+          totalDurationInSeconds
+        )
+        SubsectionLength +=
+          userDetails.courses[i].courseContent[j].subSection.length
+      }
+      let courseProgressCount = await CourseProgress.findOne({
+        courseID: userDetails.courses[i]._id,
+        userId: userId,
+      })
+      courseProgressCount = courseProgressCount?.completedVideos.length
+      if (SubsectionLength === 0) {
+        userDetails.courses[i].progressPercentage = 100
+      } else {
+        // To make it up to 2 decimal point
+        const multiplier = Math.pow(10, 2)
+        userDetails.courses[i].progressPercentage =
+          Math.round(
+            (courseProgressCount / SubsectionLength) * 100 * multiplier
+          ) / multiplier
+      }
     }
-};
+
+    if (!userDetails) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find user with id: ${userDetails}`,
+      })
+    }
+    return res.status(200).json({
+      success: true,
+      data: userDetails.courses,
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
+}
 

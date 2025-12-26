@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUserEnrolledCourses } from '../../../services/operations/profileAPI';
 import ProgressBar from "@ramonak/react-progress-bar";
+import ViewCourse from '../../../pages/ViewCourse';
+import { useNavigate } from 'react-router-dom';
 
 function EnrolledCourses() {
   const [enrolledCourses, setEnrolledCourses] = useState(null);
@@ -15,6 +17,8 @@ function EnrolledCourses() {
       console.log("Unable to fetch enrolled courses", error);
     }
   };
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getEnrolledCourses();
@@ -33,6 +37,10 @@ function EnrolledCourses() {
           <div
             key={course._id || index}
             className="flex flex-col md:flex-row items-center gap-4 p-4 border rounded-md bg-richblack-800 border-richblack-700"
+            onClick={()=>{navigate(
+                    `/view-course/${course?._id}/section/${course.courseContent?.[0]?._id}/sub-section/${course.courseContent?.[0]?.subSection?.[0]?._id}`
+                  )
+                }}
           >
             {/* Thumbnail */}
             <img

@@ -92,7 +92,7 @@ function ProfileDropDown() {
               </button>
               <button
                 onClick={() => {
-                  navigate("/settings");
+                  navigate("/dashboard/settings");
                   setOpen(false);
                 }}
                 className="w-full text-left px-4 py-2 text-richblack-5 hover:bg-richblack-700 transition-colors"

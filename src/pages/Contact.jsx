@@ -1,36 +1,32 @@
 import React from "react"
 
+
 import Footer from "../components/common/Footer"
-// import ReviewSlider from "../components/common/ReviewSlider"
-// import ContactDetails from "../components/core/ContactUsPage/ContactDetails"
-import ContactUsForm from "../components/ContactPage/ContactUsForm"
+import ReviewSlider from "../components/common/ReviewSlider"
+import ContactDetails from "../components/ContactPage/ContactDetails"
+import ContactForm from "../components/ContactPage/ContactForm"
 
 const Contact = () => {
   return (
-    <div className="bg-richblack-900 text-white min-h-screen">
-      {/* Contact Section */}
-      <div className="mx-auto mt-20 flex w-11/12 max-w-maxContent flex-col lg:flex-row justify-between gap-10">
-        {/* Contact Details (optional) */}
-        {/* <div className="lg:w-[40%]">
+    <div>
+      <div className="mx-auto mt-20 flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-white lg:flex-row">
+        {/* Contact Details */}
+        <div className="lg:w-[40%]">
           <ContactDetails />
-        </div> */}
+        </div>
 
         {/* Contact Form */}
-        <div className="w-full lg:w-[60%]">
-          <ContactUsForm />
+        <div className="lg:w-[60%]">
+          <ContactForm />
         </div>
       </div>
-
-      {/* Reviews / Extra Section */}
-      <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-center gap-8">
-        {/* Reviews from Other Learners */}
-        {/* <h1 className="text-center text-4xl font-semibold mt-8">
+      <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
+        {/* Reviws from Other Learner */}
+        <h1 className="text-center text-4xl font-semibold mt-8">
           Reviews from other learners
         </h1>
-        <ReviewSlider /> */}
+        <ReviewSlider />
       </div>
-
-      {/* Footer */}
       <Footer />
     </div>
   )

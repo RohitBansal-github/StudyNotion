@@ -18,6 +18,8 @@ const{createSubSection,updateSubSection,deleteSubSection}=require("../controller
 //Import rating and review controller
 const{createRating,getAverageRating,getAllRating}=require("../controllers/RatingandReview");
 
+const {updateCourseProgress} = require("../controllers/courseProgress");
+
 //Import middleware
 
 const{auth,isInstructor,isStudent,isAdmin}=require("../middlewares/auth");
@@ -52,13 +54,13 @@ router.get(
   getInstructorCourses
 );
 
-// Fetch full course details  of logged-in instructor
 router.post(
   "/getFullCourseDetails",
   auth,
-  isInstructor,
+  isStudent,
   getFullCourseDetails
 );
+
 
 
 
@@ -70,6 +72,10 @@ router.delete(
   isInstructor,
   deleteCourse
 );
+
+// update the course completion progress
+
+router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
 
 
 

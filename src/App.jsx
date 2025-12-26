@@ -25,6 +25,9 @@ import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse/EditCourse";
 import Catalog from "./pages/Catalog";
 import CourseDetails from "./pages/CourseDetails";
+import ViewCourse from "./pages/ViewCourse";
+import VideoDetails from "./components/core/ViewCourse/VideoDetails";
+import Settings from "./components/core/Dashboard/Settings";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -81,8 +84,9 @@ function App() {
             <Dashboard />
           </PrivateRoute>
         }>
+          {/* Route for all users */}
           <Route path="dashboard/my-profile" element={<MyProfile />} />
-
+          <Route path="dashboard/Settings" element={<Settings />} />
 
           {
             user?.accountType === ACCOUNT_TYPE.STUDENT && (
@@ -104,6 +108,27 @@ function App() {
           }
 
         </Route>
+
+        <Route element = {
+          <PrivateRoute>
+            <ViewCourse/>
+          </PrivateRoute>
+        }>
+
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+              <Route
+              path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+              element={<VideoDetails/>}
+               />
+              </>
+            )
+          }
+
+        </Route>
+
+
 
         <Route path="*" element = {<Error/>}/>
 

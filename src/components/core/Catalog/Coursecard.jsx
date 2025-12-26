@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import RatingStars from "../../common/RatingStars";
 import GetAvgRating from "../../../utils/avgRating";
+import RatingStars from "../../common/RatingStars";
 
 const Coursecard = ({ course, Height }) => {
   const [avgReviewCount, setAvgReviewCount] = useState(0);

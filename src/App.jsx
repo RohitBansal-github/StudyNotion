@@ -28,6 +28,7 @@ import CourseDetails from "./pages/CourseDetails";
 import ViewCourse from "./pages/ViewCourse";
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import Settings from "./components/core/Dashboard/Settings";
+import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -92,6 +93,7 @@ function App() {
             user?.accountType === ACCOUNT_TYPE.STUDENT && (
               <>
                 <Route path="dashboard/cart" element={<Cart />} />
+
                 <Route path="dashboard/enrolled-courses"
                   element={<EnrolledCourses />} />
               </>
@@ -100,7 +102,9 @@ function App() {
           {
             user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
               <>
+              <Route path="dashboard/instructor" element={<Instructor/>} />
               <Route path="dashboard/add-course" element={<AddCourse/>} />
+              
               <Route path="dashboard/my-courses" element={<MyCourses/>} />
               <Route path="dashboard/edit-course/:courseId" element={<EditCourse/>} />
               </>

@@ -1,9 +1,9 @@
 //import required modules
 const express=require("express");
 const router=express.Router();
-const{auth}=require("../middlewares/auth");
+const{auth, isInstructor}=require("../middlewares/auth");
 
-const{deleteAccount,profileUpdate,getAllUserDetails,updateDisplayPicture,getEnrolledCourses}=require("../controllers/Profile");
+const{deleteAccount,profileUpdate,getAllUserDetails,updateDisplayPicture,getEnrolledCourses, instructorDashboard}=require("../controllers/Profile");
 
 //*************// Profile Routes //*****************//
 
@@ -15,6 +15,9 @@ router.get("/getAllUserDetails",auth,getAllUserDetails);
 //get enrolled courses
 router.get("/getEnrolledCourses",auth,getEnrolledCourses);
 router.put("/updateDisplayPicture",auth,updateDisplayPicture);
+
+// instructor dashboard
+router.get("/instructorDashboard", auth, isInstructor, instructorDashboard);
 
 module.exports=router;
 

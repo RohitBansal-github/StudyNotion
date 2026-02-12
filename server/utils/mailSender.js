@@ -6,6 +6,10 @@ const mailSender = async (email, body, title) => {
       host: process.env.MAIL_HOST, // e.g., smtp.gmail.com
       port: process.env.MAIL_PORT || 587, // 465 for SSL, 587 for TLS
       secure: process.env.MAIL_PORT === 465, // true for 465, false for 587
+      requireTLS: true,
+      secure: false,
+      logger: true,
+      debug: true,
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS, // app password if Gmail

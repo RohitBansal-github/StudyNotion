@@ -116,7 +116,7 @@ export function login(email, password, navigate) {
     }
     catch (error) {
       console.log("LOGIN API ERROR.......", error)
-      toast.error("Login Failed")
+      toast.error("Invalid email or password")
     }
 
     dispatch(setLoading(false));

@@ -15,7 +15,9 @@ exports.sendOTP = async (req, res) => {
 
     try {
         //fetch email
-        const { email } = req.body;
+        let { email } = req.body;
+        email = email.trim().toLowerCase();
+
 
         const alreadyExists = await User.findOne({ email });
 
@@ -36,7 +38,7 @@ exports.sendOTP = async (req, res) => {
 
         //check Unique and recent otp in the db
 
-        const result = await OTP.findOne({ otp: otp });
+        let result = await OTP.findOne({ otp: otp });
 
         while (result) {
             otp = otpGenerator.generate(6, {
@@ -55,10 +57,16 @@ exports.sendOTP = async (req, res) => {
 
         console.log(otpBody);
 
+        // ✅ Send Email
+        await mailSender(
+            email,
+            "Verification Email",
+            otpTemplate(otp)
+        );
+
         return res.status(200).json({
             success: true,
             message: "OTP Sent Successfully",
-            otp,
         })
     }
     catch (error) {
@@ -78,7 +86,7 @@ exports.signUp = async (req, res) => {
 
     try {
         //fetch data 
-        const {
+        let {
             firstName,
             lastName,
             email,
@@ -89,8 +97,11 @@ exports.signUp = async (req, res) => {
             otp,
         } = req.body;
 
+        email = email.trim().toLowerCase();
+
+
         //validate karlo -- field should not empty
-        if (!firstName || !lastName || !email || !password || !confirmPassword || !otp||!accountType) {
+        if (!firstName || !lastName || !email || !password || !confirmPassword || !otp || !accountType) {
             return res.status(403).json({
                 success: false,
                 message: "All Fields are Required."
@@ -128,7 +139,7 @@ exports.signUp = async (req, res) => {
             })
         } else if (otp !== recentOtp[0].otp) {
             //Invalid OTP
-            res.send(400).json({
+            return res.status(400).json({
                 success: false,
                 message: "Invalid OTP",
             })
@@ -158,12 +169,14 @@ exports.signUp = async (req, res) => {
         })
 
         //return response
+        await OTP.deleteMany({ email });
 
         return res.status(200).json({
             success: true,
             message: "User is registered successfully.",
             user,
         })
+
 
 
     }

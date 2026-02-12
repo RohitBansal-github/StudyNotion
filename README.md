@@ -6,6 +6,7 @@
   <img src="https://img.shields.io/badge/Database-MongoDB-brightgreen?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge" />
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" />
+
 </p>
 
 <p align="center">
@@ -47,6 +48,9 @@
 
 StudyNotion is a full-stack Learning Management System (LMS) designed to simulate a real-world EdTech platform.
 
+Designed following scalable architecture principles including separation of concerns, layered backend structure, and modular frontend design.
+
+
 It supports:
 
 - 👨‍🎓 Student enrollment & progress tracking  
@@ -56,6 +60,7 @@ It supports:
 - 🔐 Secure JWT authentication  
 
 Built with scalability, modularity, and clean architecture in mind.
+
 
 ---
 
@@ -403,33 +408,20 @@ npm run dev
 
 
 #### Frontend Setup
-```
+```bash
 cd client
 npm install
 npm run dev
 ```
 
-##  Deployment
+## Deployment
 
-#### Frontend
-```
-Vercel
-Netlify
-```
+### Hosting Options
 
-#### Backend
+- **Frontend:** Vercel / Netlify  
+- **Backend:** Render / Railway / AWS EC2  
+- **Database:** MongoDB Atlas  
 
-```
-Render
-Railway
-AWS EC2
-```
-
-#### Database
-
-```
-MongoDB Atlas
-```
 
 ---
 
@@ -473,8 +465,9 @@ MongoDB Atlas
 Contributions are welcome and appreciated! 🚀  
 To contribute to this project, please follow the steps below:
 
-1. **Fork the Repository**  
-   Click the **Fork** button at the top right of this repository.
+1. **Fork the Repository** 
+
+    Click the **Fork** button at the top right of this repository.
 
 2. **Clone Your Fork**
    ```bash

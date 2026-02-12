@@ -6,7 +6,7 @@ const mailSender = async (email, body, title) => {
   try {
     await sgMail.send({
       to: email,
-      from: "dummymail8364@gmail.com", // verified sender
+      from: "StudyNotion <dummymail8364@gmail.com>", // verified sender
       subject: title,
       html: body,
     });

@@ -1,6 +1,6 @@
 import toast from "react-hot-toast"
 import { profileEndpoints } from "../api"
-import { setLoading, setUser } from "../../slices/profileSlice"
+// import { setLoading, setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector";
 
 const { GET_USER_ENROLLED_COURSES_API, GET_INSTRUCTOR_DATA_API } = profileEndpoints;

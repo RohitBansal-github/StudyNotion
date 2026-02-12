@@ -19,8 +19,8 @@
 
 | Platform  | Link |
 |------------|------|
-| Frontend | https://your-frontend-url.vercel.app |
-| Backend  | https://your-backend-url.onrender.com |
+| Frontend | [https://studynotion-web.vercel.app](https://studynotion-web.vercel.app/) |
+| Backend  | [https://studynotion-46xn.onrender.com](https://studynotion-46xn.onrender.com/) |
 
 ---
 

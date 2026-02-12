@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { FaArrowRight } from "react-icons/fa"
 import HighlightText from '../components/core/Homepage/HighlightText'
 import CTAButton from '../components/core/Homepage/Button'
@@ -13,16 +14,50 @@ import ExploreMore from '../components/core/Homepage/ExploreMore'
 import ReviewSlider from '../components/common/ReviewSlider'
 
 function Home() {
+
+  const { token } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.profile)
+
+  const isLoggedIn = token && user
+  const isInstructor = user?.accountType === "Instructor"
+
+  // ---------- Dynamic Routes ----------
+
+  // Become Instructor Button
+  const becomeInstructorLink = !isLoggedIn
+    ? "/signup"
+    : isInstructor
+      ? "/dashboard/my-profile"
+      : "/signup"
+
+  // Hero Buttons
+  const learnMoreLink = "/catalog/ai&ml"  // example category route
+  const bookDemoLink = "/contact"
+
+  // Try It Yourself (Professional Suggestion)
+  // Best UX: If logged in → go to catalog
+  // If not logged in → signup
+  const tryItYourselfLink = isLoggedIn
+    ? "/catalog/ai&ml"
+    : "/signup"
+
+  // Start Teaching Today
+  const startTeachingLink = !isLoggedIn
+    ? "/signup"
+    : isInstructor
+      ? "/dashboard/my-profile"
+      : "/signup"
+
   return (
     <div className="text-white">
 
       {/* Section 1: Hero */}
       <div className='relative mx-auto flex flex-col w-11/12 items-center max-w-maxContent justify-center text-center'>
         
-        <Link to="/signup">
+        <Link to={becomeInstructorLink}>
           <div className='group mt-16 p-1 mx-auto rounded-full bg-richblack-800 text-white font-bold transition-all duration-200 hover:scale-95 shadow-[0_0_10px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] w-fit'>
             <div className='flex items-center gap-2 rounded-full bg-richblack-800 px-10 py-2 text-white transition-all duration-200 group-hover:bg-richblack-900'>
-              <p>Become an Instructor</p>
+              <p>{isInstructor ? "Go to Profile" : "Become an Instructor"}</p>
               <FaArrowRight />
             </div>
           </div>
@@ -37,8 +72,8 @@ function Home() {
         </p>
 
         <div className='flex flex-col sm:flex-row gap-4 sm:gap-7 mt-8'>
-          <CTAButton active={true} linkto="/signup">Learn More</CTAButton>
-          <CTAButton active={false} linkto="/login">Book a Demo</CTAButton>
+          <CTAButton active={true} linkto={"/about"}>Learn More</CTAButton>
+          <CTAButton active={false} linkto={bookDemoLink}>Book a Demo</CTAButton>
         </div>
 
         {/* Hero Video */}
@@ -59,10 +94,19 @@ function Home() {
           position="lg:flex-row"
           heading={<h2 className='text-4xl font-semibold'>Unlock Your <HighlightText text="Coding Potential"/> with our online courses</h2>}
           subheading="Designed by industry experts passionate about teaching coding."
-          ctabtn1={{ text: "Try it yourself", linkto: "/signup", active: true }}
-          ctabtn2={{ text: "Learn more", linkto: "/login", active: false }}
+          ctabtn1={{ text: "Try it yourself", linkto: startTeachingLink, active: true }}
+          ctabtn2={{ text: "Learn more", linkto: "/about", active: false }}
           codeblock={`<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head><body><h1>Hello World</h1></body></html>`}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body><h1>Hello World</h1>
+<p>Be part of our organisation</p>
+</body>
+</html>`}
           codeColor="text-yellow-25"
           backgroundGradient="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400"
         />
@@ -71,10 +115,19 @@ function Home() {
           position="lg:flex-row-reverse"
           heading={<h2 className='text-4xl font-semibold'>Learn by Doing <HighlightText text="Projects & Quizzes"/></h2>}
           subheading="Hands-on coding practice to build real-world skills."
-          ctabtn1={{ text: "Try it yourself", linkto: "/signup", active: true }}
-          ctabtn2={{ text: "Learn more", linkto: "/login", active: false }}
+          ctabtn1={{ text: "Try it yourself", linkto: startTeachingLink, active: true }}
+          ctabtn2={{ text: "Learn more", linkto: "/about", active: false }}
           codeblock={`<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head><body><h1>Hello World</h1></body></html>`}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body><h1>Hello World</h1>
+<p>Be part of our organisation</p>
+</body>
+</html>`}
           codeColor="text-yellow-25"
           backgroundGradient="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400"
         />
@@ -97,12 +150,7 @@ function Home() {
       <div className="w-11/12 max-w-maxContent mx-auto mt-20 space-y-16">
         <InstructorSection />
         <h2 className='text-center text-4xl font-semibold'>Reviews from Other Learners</h2>
-
-        {/* Review Slider here */}
-
         <ReviewSlider/>
-
-
       </div>
 
       {/* Footer */}

@@ -9,21 +9,27 @@ function Dashboard() {
 
   if (profileLoading || authLoading) {
     return (
-      <div className="mt-10 text-center text-richblack-200">Loading...</div>
+      <div className="min-h-screen grid place-items-center bg-richblack-900 text-richblack-200">
+        Loading...
+      </div>
     );
   }
 
   return (
-    <div className="relative flex min-h-[calc(100vh-3.5rem)] bg-richblack-900 text-white">
-      {/* Sidebar */}
-      <Sidebar />
+    <div className="flex min-h-[calc(100vh-64px)] bg-richblack-900 text-white">
 
-      {/* Main Content */}
-      <div className="flex-1 h-[calc(100vh-3.5rem)] overflow-y-auto">
-        <div className="mx-auto w-11/12 max-w-[1200px] py-10">
+      {/* ✅ Desktop Sidebar Only */}
+      <div className="hidden md:block">
+        <Sidebar />
+      </div>
+
+      {/* ✅ Main Content */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="mx-auto w-11/12 max-w-[1200px] py-8 sm:py-10">
           <Outlet />
         </div>
       </div>
+
     </div>
   );
 }

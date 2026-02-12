@@ -123,6 +123,7 @@ module.exports = {
         800: "#171717",
         900: "#141414",
       },
+      
     },
     extend: {
       maxWidth: {

@@ -29,26 +29,33 @@ function ReviewSlider() {
   }, [])
 
   return (
-    <div className="w-full bg-richblack-900 py-12">
-      <div className="mx-auto max-w-maxContent px-4">
+    <div className="w-full mt-16">
+      <div className="mx-auto max-w-7xl px-4">
+
         <Swiper
           slidesPerView={1}
-          centeredSlides={true}
           spaceBetween={30}
           loop={true}
-          watchOverflow={false}   // 🔥 IMPORTANT
-          loopedSlides={reviews.length || 1}
+          watchOverflow={false}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
           }}
-          navigation={true}       // arrows ON
+          // navigation={true}
           modules={[Autoplay, Navigation]}
           className="w-full"
+          breakpoints={{
+            768: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          }}
         >
           {reviews.map((review, index) => (
-            <SwiperSlide key={index} className="flex justify-center">
-              <div className="w-full max-w-[420px] rounded-xl bg-richblack-800 p-6 shadow-xl transition-all duration-300 hover:scale-[1.03]">
+            <SwiperSlide key={index} className="flex justify-center py-6">
+              <div className="w-full max-w-[380px] rounded-xl bg-richblack-800 p-6 shadow-lg transition-all duration-300 hover:scale-[1.04] hover:shadow-2xl">
                 
                 {/* USER */}
                 <div className="flex items-center gap-3">
@@ -63,7 +70,7 @@ function ReviewSlider() {
                   />
 
                   <div>
-                    <p className="font-semibold text-richblack-5">
+                    <p className="font-semibold text-richblack-5 leading-tight">
                       {review?.user?.firstName} {review?.user?.lastName}
                     </p>
                     <p className="text-xs text-richblack-300">
@@ -73,7 +80,7 @@ function ReviewSlider() {
                 </div>
 
                 {/* REVIEW */}
-                <p className="mt-4 text-sm text-richblack-100">
+                <p className="mt-4 text-sm text-richblack-100 leading-relaxed line-clamp-4">
                   “{review?.review}”
                 </p>
 
@@ -97,6 +104,7 @@ function ReviewSlider() {
             </SwiperSlide>
           ))}
         </Swiper>
+
       </div>
     </div>
   )

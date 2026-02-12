@@ -2,8 +2,15 @@ import React from 'react'
 
 function HighlightText({ text }) {
   return (
-    <span className="font-bold bg-gradient-to-r from-blue-100 to-blue-300 bg-clip-text text-transparent">
-      {" "}
+    <span
+      className="
+        relative font-bold
+        bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500
+        bg-clip-text text-transparent
+        tracking-tight
+        whitespace-nowrap
+      "
+    >
       {text}
     </span>
   )

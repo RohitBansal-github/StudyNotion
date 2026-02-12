@@ -1,50 +1,57 @@
-import React from 'react'
-import Instructor from "../../../assets/Images/Instructor.png"
-import HighlightText from './HighlightText'
-import CTAButton from './Button'
-import { FaArrowRight } from 'react-icons/fa'
-import Footer from '../../common/Footer'
+import React from "react";
+import { useSelector } from "react-redux";
+import Instructor from "../../../assets/Images/Instructor.png";
+import HighlightText from "./HighlightText";
+import CTAButton from "./Button";
+import { FaArrowRight } from "react-icons/fa";
 
 function InstructorSection() {
+  const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
+
+  const accountType = user?.accountType;
+
+  const startTeachingLink =
+    token && accountType === "Instructor"
+      ? "/dashboard/my-profile"
+      : "/signup";
+
   return (
-    <div className='mt-16'>
-        <div className='flex flex-row gap-20 items-center'>
-
-            <div className='w-[50%]'>
-                <img src={Instructor} alt=""
-                className='shadow-white' />
-            </div>
-
-            <div className='w-[50%] flex flex-col gap-10'>
-
-                <div className='text-4xl font-semibold w-[50%]'>
-                    Become an 
-                    <HighlightText text={"Instructor"}/>
-                </div>
-
-                <p className='font-medium text-[16px] w-[80%] text-richblack-300'>
-                    Instructor from around the world teach millions of students on StudyNotion. We provide the tools ans skills to teach what you love.
-                </p>
-
-                <CTAButton active={true} linkto={"/signup"}>
-                    <div className='flex flex-row gap-2 items-center'>
-                        Start Learning Today
-                        <FaArrowRight/>
-                    </div>
-                </CTAButton>
-
-
-                
-
-                
-
-            </div>
-
-
+    <div className="mt-24 px-4">
+      <div className="flex flex-col-reverse lg:flex-row gap-14 items-center max-w-7xl mx-auto">
+        {/* Left Image */}
+        <div className="w-full lg:w-[50%] flex justify-center">
+          <img
+            src={Instructor}
+            alt="Instructor"
+            className="w-[90%] md:w-[75%] lg:w-full object-contain shadow-white"
+          />
         </div>
 
+        {/* Right Content */}
+        <div className="w-full lg:w-[50%] flex flex-col gap-6 text-center lg:text-left">
+          <h2 className="text-3xl md:text-4xl font-semibold">
+            Become an {" "}
+            <HighlightText text={"Instructor"} />
+          </h2>
+
+          <p className="font-medium text-base md:text-lg text-richblack-300 max-w-[500px] mx-auto lg:mx-0">
+            Instructors from around the world teach millions of students on
+            StudyNotion. We provide the tools and skills to teach what you love.
+          </p>
+
+          <div className="flex justify-center lg:justify-start">
+            <CTAButton active={true} linkto={startTeachingLink}>
+              <div className="flex items-center gap-2">
+                Start Teaching Today
+                <FaArrowRight />
+              </div>
+            </CTAButton>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default InstructorSection
+export default InstructorSection;

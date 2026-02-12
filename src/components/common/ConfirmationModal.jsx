@@ -3,7 +3,7 @@ import IconBtn from "./IconBtn";
 
 function ConfirmationModal({ modalData }) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-richblack-900 bg-opacity-60 backdrop-blur-sm z-50">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-richblack-900 bg-opacity-60 backdrop-blur-sm">
       <div className="w-11/12 max-w-md rounded-lg bg-richblack-800 p-6 shadow-lg border border-richblack-700">
         
         {/* Heading */}
